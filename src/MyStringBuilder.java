@@ -1,8 +1,8 @@
-import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
 public class MyStringBuilder {
 
-    private final LinkedHashMap<Long, MyStringBuilder> snapshots = new LinkedHashMap<>();
+    private final TreeMap<Long, MyStringBuilder> snapshots = new TreeMap<>();
     private Long availableSnapshots = 0L;
     private Long stepsTaken = 0L;
     private boolean snapshotWasActivated;
@@ -22,9 +22,9 @@ public class MyStringBuilder {
     public MyStringBuilder append(String str) {
 
         if(snapshotWasActivated) {
-            snapshots.clear();
+            snapshots.tailMap(availableSnapshots+stepsTaken+1).clear();
             snapshotWasActivated = false;
-            availableSnapshots = 0L;
+            availableSnapshots = (long) snapshots.size();
             stepsTaken = 0L;
         }
 

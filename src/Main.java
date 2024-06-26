@@ -7,31 +7,26 @@ public class Main {
         //ошибочное количество шагов для перехода, но пока что не стал этого делать. :|
 
         MyStringBuilder one = new MyStringBuilder();
-        one.append("Append once");
-        one.append(" Save");
+        one.append("1");
+        one.append(" 2");
+        one.append(" 3");
+        one.append(" 4");
+        one.append(" 5");
+        one.navigateSnapshotsSteps(-3L);
         System.out.println(one);
-        one.append(" More");
-        one.append(" More");
-        one.append(" And More");
-        System.out.println(one);
-        System.out.println(one);
-        one.append(" More");
-        one.append(" More");
-        one.append(" And More");
-        System.out.println(one);
-        System.out.println(one);
-        one.navigateSnapshotsSteps(-7L);
-        System.out.println(one);
-        one.navigateSnapshotsSteps(1L);
-        System.out.println(one);
-        one.navigateSnapshotsSteps(3L);
-        System.out.println(one);
-        one.append(" All clear?");
-        one.append(" Let us check!");
+        one.append(" 6");
+        one.append(" 7");
         System.out.println(one);
         one.navigateSnapshotsSteps(-1L);
         System.out.println(one);
-        one.navigateSnapshotsSteps(1L);
+        one.append(" 8");
+        one.append(" 9");
+        one.append(" 10");
         System.out.println(one);
+        one.navigateSnapshotsSteps(-5L);
+        System.out.println(one);
+
+
+
     }
 }
