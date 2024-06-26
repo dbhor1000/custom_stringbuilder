@@ -1,33 +1,54 @@
+import java.util.LinkedHashMap;
+
 public class MyStringBuilder {
 
+    private final LinkedHashMap<Long, MyStringBuilder> snapshots = new LinkedHashMap<>();
+    private Long availableSnapshots = 0L;
+    private Long stepsTaken = 0L;
+    private boolean snapshotWasActivated;
     private char[] value;
     private int count;
-    private char[] savedValue;
-    private int savedCount;
 
     public MyStringBuilder() {
         value = new char[16];
         count = 0;
     }
 
+    public MyStringBuilder(char[] value, int count) {
+        this.value = value;
+        this.count = count;
+    }
+
     public MyStringBuilder append(String str) {
+
+        if(snapshotWasActivated) {
+            snapshots.clear();
+            snapshotWasActivated = false;
+            availableSnapshots = 0L;
+            stepsTaken = 0L;
+        }
+
         if (str == null) str = "null";
         int len = str.length();
         ensureCapacity(count + len);
         str.getChars(0, len, value, count);
         count += len;
+        availableSnapshots++;
+        snapshots.put(availableSnapshots, new MyStringBuilder(value, count));
         return this;
     }
 
-    public MyStringBuilder hitSave() {
-        savedValue = value;
-        savedCount = count;
-        return this;
-    }
+    public MyStringBuilder navigateSnapshotsSteps(Long steps) {
 
-    public MyStringBuilder hitUndo() {
-        value = savedValue;
-        count = savedCount;
+        snapshotWasActivated = true;
+        Long totalAmountOfSnapshots = (long) snapshots.keySet().size(); //Всего шагов сохранено для отката
+
+        stepsTaken = stepsTaken + steps;
+        Long currentSnapshot = totalAmountOfSnapshots + stepsTaken;   // Вычисляем номер шага для перехода
+
+        MyStringBuilder snapshotFound = snapshots.get(currentSnapshot);
+        value = snapshotFound.value;
+        count = snapshotFound.count;
         return this;
     }
 
